@@ -515,7 +515,7 @@ int[] getNegativeItems(int[] arr) {
 }
 ```
 
-# Instance copy of an array
+# Instance copy
 
 When you want to *duplicate* or *clone* an array, you can create an array of the same size as the original array, and copy all items over. This is known as *instance copy*.
 
@@ -786,7 +786,6 @@ print("Kilometer "+fastestLap+"-"+(fastestLap+1));
 ```
 </details>
 </div>
-
 
 <!--
 better for arrays and functions
