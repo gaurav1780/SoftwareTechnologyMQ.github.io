@@ -63,7 +63,7 @@ One example (shared by one of the students on MACS Discord) is if you are standi
 
 ### EXAMPLE
 
-For the same problem statement used for iterative solutions, we can say that the sum of all integers from `low` to `high` is:
+Now, for the same problem statement used for iterative solutions, we can say that the sum of all integers from `low` to `high` is:
 
 ```
 if low > high:
@@ -75,11 +75,13 @@ else
 
 Focus on the part,
 
->```
->sum of all integers from `low+1` to `high`
->```
+```
+sum of all integers from (low+1) to high
+```
 
-It is the same problem as the original problem, except there is one less number to handle, and thus is *simpler*.
+This is analogous to the same question we pose the person infront of us.
+
+And our contribution to the answer is adding *low* to the answer we get.
 
 <iframe width="560"` height="315"` src="https://www.youtube.com/embed/KEEKn7Me-ms"` frameborder="0"` allow="autoplay; encrypted-media"` allowfullscreen></iframe>
 
