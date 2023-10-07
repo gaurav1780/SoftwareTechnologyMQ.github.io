@@ -56,4 +56,12 @@ public class Rectangle {
 	public boolean isSquare() {
 		return width == height;
 	}
+
+	public boolean equals(Rectangle other) {
+		if(width == other.width && height == other.height)
+			return true;
+		if(width == other.height && height == other.width)
+			return true;
+		return false;
+	}
 }

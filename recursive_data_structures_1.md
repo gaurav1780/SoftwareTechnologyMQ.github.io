@@ -126,6 +126,131 @@ while(temp != null) {
 
 ![](./fig/06-lists/linkedlists/linkedlists-figure12.png)
 
+## Careful to not lose the reference to the starting node
+
+What would happen if we write the following code?
+
+```java
+int total = 0;
+while(n1 != null) {
+	total = total + n1.data;
+	n1 = n1.next;
+}
+```
+
+`total` will hold the correct value but `n1` now becomes `null`.
+
+Once, instances don't have any incoming references, they are deleted by Java.
+
+So, if you try to do anything using `n1` again, well ... good luck!
+
+Hence, we should always make a reference copy of the starting node before operating on it.
+
+## Passing a node to a function
+
+Thankfully, that is exactly how objects are passed to functions - as reference copies of the actual parameter.
+
+So, if I had a function:
+
+```
+public static int sum(Node start) {
+	int total = 0;
+	while(start != null) {
+		total = total + start.data;
+		start = start.next;
+	}
+	return total;
+}
+```
+
+I can call it as `sum(n1)`, thereby `start ` being a reference copy of `n1` and updated. But not `n1`. Life is good again :)
+
+## Recursion is a beautiful thing
+
+To calculate the sum of all nodes starting at a node `start`, 
+
+- if `start` is `null`, you can return 0,
+- otherwise, you can add `start.data` to the sum of all nodes starting at `start.next`.
+
+```
+public static int sum(Node start) {
+	if(start == null) {
+		return 0;
+	}
+	else {
+		return start.data + sum(start.next);
+	}
+}
+```
+
+YESSS!!!
+
+## Keep moving
+
+What is the bug in the following code?
+
+```
+public static int sumPositives(Node start) {
+	int total = 0;
+	while(start != null) {
+		if(start.data > 0) {
+			total = total + start.data;
+			start = start.next;
+		}
+	}
+	return total;
+}
+```
+
+We only move to the next node if the value in the current one is greater than 0.
+The movement forward (`start = start.next`), just like the classic `i++`, is almost always unconditional.
+
+Correct code:
+
+```
+public static int sumPositives(Node start) {
+	int total = 0;
+	while(start != null) {
+		if(start.data > 0) {
+			total = total + start.data;
+		}
+		start = start.next;
+	}
+	return total;
+}
+```
+
+Some people prefer a `for-loop` for this very reason:
+
+```
+public static int sumPositives(Node start) {
+	int total = 0;
+	for(; start != null; start = start.next) {
+		if(start.data > 0) {
+			total = total + start.data;
+		}
+	}
+	return total;
+}
+```
+
+If, for any reason, you need to hold on to the original reference of `start`, you can always copy into another variable as,
+
+```
+//this is the classic handshake algorithm
+
+public static boolean allUnique(Node start) {
+	for(Node nodeA = start; nodeA != null; nodeA = nodeA.next) { //for all nodes
+		//check against all other nodes AFTER it
+		for(Node nodeB = nodeA.next; nodeB != null; nodeB = nodeB.next) { 
+			if(nodeA.data == nodeB.data) {
+				return false;
+			}
+	}
+	return true;
+}
+```
+
 ## Nodes can hold other objects too
 
 In the previous example, we saw a node holding integer data, but it can hold any kind of data. For starters, take a look at `RNode` holding `Rectangle` object.
@@ -154,6 +279,39 @@ RNode p = new RNode(new Rectangle(2.5, 1.5), q);
 ```
 
 ![](./fig/06-lists/linkedlists/linkedlists-figure3.png)
+
+# Be careful while comparing objects!!!
+
+Consider the following function that attempts to check if a specific rectangle exists in a list or not:
+
+```
+public static boolean contains(RNode start, Rectangle target) {
+	for(Node current = start; current != null; current = current.next) { 
+			if(current.data == target) {
+				return true;
+			}
+	}
+	return false;
+}
+```
+
+Here, the `current.data == target` checks if the two are reference copies!
+
+The right version is:
+
+
+```
+public static boolean contains(RNode start, Rectangle target) {
+	for(Node current = start; current != null; current = current.next) { 
+			if(current.data.equals(target)) {
+				return true;
+			}
+	}
+	return false;
+}
+```
+
+Here, the `current.data.equals(target)` checks for equality based on the definition of what "equal" is (defined in class `Rectangle`).
 
 # Homework - 2
 
