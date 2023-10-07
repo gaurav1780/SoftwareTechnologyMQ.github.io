@@ -29,13 +29,13 @@ Consider the following class:
 
 ```java
 public class Node {
-	public int data;
-	public Node next;
+  public int data;
+  public Node next;
 
-	public Node(int d, Node n) {
-		data = d;
-		next = n;
-	}
+  public Node(int d, Node n) {
+  data = d;
+  next = n;
+  }
 }
 ```
 
@@ -119,8 +119,8 @@ Abstracting into a loop to add all the values:
 Node temp = n1;
 int total = 0;
 while(temp != null) {
-	total = total + temp.data;
-	temp = temp.next;
+  total = total + temp.data;
+  temp = temp.next;
 }
 ```
 
@@ -133,8 +133,8 @@ What would happen if we write the following code?
 ```java
 int total = 0;
 while(n1 != null) {
-	total = total + n1.data;
-	n1 = n1.next;
+  total = total + n1.data;
+  n1 = n1.next;
 }
 ```
 
@@ -154,12 +154,12 @@ So, if I had a function:
 
 ```java
 public static int sum(Node start) {
-	int total = 0;
-	while(start != null) {
-		total = total + start.data;
-		start = start.next;
-	}
-	return total;
+  int total = 0;
+  while(start != null) {
+  total = total + start.data;
+  start = start.next;
+  }
+  return total;
 }
 ```
 
@@ -174,12 +174,12 @@ To calculate the sum of all nodes starting at a node `start`,
 
 ```java
 public static int sum(Node start) {
-	if(start == null) {
-		return 0;
-	}
-	else {
-		return start.data + sum(start.next);
-	}
+  if(start == null) {
+  return 0;
+  }
+  else {
+  return start.data + sum(start.next);
+  }
 }
 ```
 
@@ -191,14 +191,14 @@ What is the bug in the following code?
 
 ```java
 public static int sumPositives(Node start) {
-	int total = 0;
-	while(start != null) {
-		if(start.data > 0) {
-			total = total + start.data;
-			start = start.next;
-		}
-	}
-	return total;
+  int total = 0;
+  while(start != null) {
+  if(start.data > 0) {
+    total = total + start.data;
+    start = start.next;
+  }
+  }
+  return total;
 }
 ```
 
@@ -209,14 +209,14 @@ Correct code:
 
 ```java
 public static int sumPositives(Node start) {
-	int total = 0;
-	while(start != null) {
-		if(start.data > 0) {
-			total = total + start.data;
-		}
-		start = start.next;
-	}
-	return total;
+  int total = 0;
+  while(start != null) {
+  if(start.data > 0) {
+    total = total + start.data;
+  }
+  start = start.next;
+  }
+  return total;
 }
 ```
 
@@ -224,13 +224,13 @@ Some people prefer a `for-loop` for this very reason:
 
 ```java
 public static int sumPositives(Node start) {
-	int total = 0;
-	for(; start != null; start = start.next) {
-		if(start.data > 0) {
-			total = total + start.data;
-		}
-	}
-	return total;
+  int total = 0;
+  for(; start != null; start = start.next) {
+  if(start.data > 0) {
+    total = total + start.data;
+  }
+  }
+  return total;
 }
 ```
 
@@ -238,15 +238,15 @@ Recursive version:
 
 ```java
 public static int sumPositives(Node start) {
-	if(start == null) {
-		return 0;
-	}
-	if(start.data > 0) {
-		return start.data + sumPositives(start.next);
-	}
-	else {
-		return sumPositives(start.next);
-	}
+  if(start == null) {
+  return 0;
+  }
+  if(start.data > 0) {
+  return start.data + sumPositives(start.next);
+  }
+  else {
+  return sumPositives(start.next);
+  }
 }
 ```
 
@@ -255,14 +255,14 @@ If, for any reason, you need to hold on to the original reference of `start`, yo
 ```java
 //this is the classic handshake algorithm
 public static boolean allUnique(Node start) {
-	for(Node nodeA = start; nodeA != null; nodeA = nodeA.next) { //for all nodes
-		//check against all other nodes AFTER it
-		for(Node nodeB = nodeA.next; nodeB != null; nodeB = nodeB.next) { 
-			if(nodeA.data == nodeB.data) {
-				return false;
-			}
-	}
-	return true;
+  for(Node nodeA = start; nodeA != null; nodeA = nodeA.next) { //for all nodes
+  //check against all other nodes AFTER it
+  for(Node nodeB = nodeA.next; nodeB != null; nodeB = nodeB.next) { 
+    if(nodeA.data == nodeB.data) {
+    return false;
+    }
+  }
+  return true;
 }
 ```
 
@@ -270,20 +270,20 @@ Recursive version:
 
 ```java
 public static boolean allUnique(Node start) {
-	if(start == null) {
-		return true; //vacuous truth
-	}
-	return !contains(start.next, start.data) && allUnique(start.next);
+  if(start == null) {
+  return true; //vacuous truth
+  }
+  return !contains(start.next, start.data) && allUnique(start.next);
 }
 
 public static boolean contains(Node start, int target) {
-	if(start == null) {
-		return false;
-	}
-	return start.data == target || contains(start.next, target);
+  if(start == null) {
+  return false;
+  }
+  return start.data == target || contains(start.next, target);
 }
-```	
-	
+```  
+  
 
 ## Nodes can hold other objects too
 
@@ -320,12 +320,12 @@ Consider the following function that attempts to check if a specific rectangle e
 
 ```java
 public static boolean contains(RNode start, Rectangle target) {
-	for(Node current = start; current != null; current = current.next) { 
-			if(current.data == target) {
-				return true;
-			}
-	}
-	return false;
+  for(Node current = start; current != null; current = current.next) { 
+    if(current.data == target) {
+    return true;
+    }
+  }
+  return false;
 }
 ```
 
@@ -335,12 +335,12 @@ The right version is:
 
 ```java
 public static boolean contains(RNode start, Rectangle target) {
-	for(Node current = start; current != null; current = current.next) { 
-			if(current.data.equals(target)) {
-				return true;
-			}
-	}
-	return false;
+  for(Node current = start; current != null; current = current.next) { 
+    if(current.data.equals(target)) {
+    return true;
+    }
+  }
+  return false;
 }
 ```
 
@@ -350,12 +350,12 @@ Recursive version:
 
 ```java
 public static boolean contains(RNode start, Rectangle target) {
-	if(start == null) {
-		return false;
-	}
-	else {
-		return current.data.equals(target) || contains(start.next, target);
-	}
+  if(start == null) {
+  return false;
+  }
+  else {
+  return start.data.equals(target) || contains(start.next, target);
+  }
 }
 ```
 
@@ -363,105 +363,119 @@ public static boolean contains(RNode start, Rectangle target) {
 
 Anything you can do with loops, you can do recursively... sometimes, with the use of helper functions.
 
-For example, a function that reverses a list and returns the reference to the starting Node, such that if `n -> 10 -> 70 -> 20 -> 90 -> null`, it returns reference to a Node (say, k) such that `k -> 90 -> 20 -> 70 -> 10 -> null`.
+For example, a function that reverses a list and returns the reference to the starting Node, such that if `n -> 10 -> 70 -> 20 -> 90 -> null`, it returns a reference to a Node (say, k) such that `k -> 90 -> 20 -> 70 -> 10 -> null`.
 
 ```java
 public static Node reversed(Node n) {
-	Node temp = null;
-	while(n != null) {
-		temp = new Node(n.data, temp);
-		n = n.next;
-	}
-	return temp;
+  Node temp = null;
+  while(n != null) {
+  temp = new Node(n.data, temp);
+  n = n.next;
+  }
+  return temp;
 }
 ```
 
-The above version is called *out-of-place* algorithm and will create a second list of the same size as the original list, which can be pretty costly. A recursive *out-of-place* version is provided below:
+The above version is called *out-of-place* algorithm and will create a second list of the same size as the original list, which can be pretty costly. A recursive *out-of-place* version is provided below:}
 
 ```java
 public static Node reversed(Node n) {
-	if(n == null) {
-		return null;
-	}
-	else {
-		Node temp = reversed(n.next);
-		addToEnd(temp, n.data);
-		return temp;
-	}
+  return reversed(n, size(n));
 }
 
-public static void addToEnd(Node start, int data) {	if(start == null) {
-		return;
-	}
-	if(start.next == null) {
-		start.next = new Node(data, null);
-	}
-}	
+public static Node reversed(Node n, int size) {
+  if(size == 1) {
+    return n;
+  }
+  int first = n.data;
+  Node result = reversed(n.next, size-1);
+  addToEnd(result, first);
+  return result;
+}
+
+public static int size(Node start) {
+  if(start == null) {
+    return 0;
+  }
+  return 1 + size(start.next);
+}
+
+public static void addToEnd(Node n, int data) {
+  if(n.next == null) {
+    n.next = new Node(data, null);
+  }
+  else {
+    addToEnd(n.next, data);
+  }
+} 
 ```
 
-Instead, an *in-place* algorithm modifies the existing list, so no new instances are created. Here's an in-place version (Note: `reverse` vs. `reversed`):
+Instead, an *in-place* algorithm (HD example) modifies the existing list, so no new instances are created. Here's an in-place version (Note: `reverse` vs. `reversed`):
 
 ```java
 public static void reverse(Node n) {
-	for(int i=0; i < count(n); i++) {
-		Node a = get(n, i);
-		Node b = get(n, count(n) - i - 1);
-		int temp = a.data;
-		a.data = b.data;
-		b.data = temp;
-	}
+  for(int i=0; i < count(n)/2; i++) {
+  Node a = get(n, i);
+  Node b = get(n, count(n) - i - 1);
+  int temp = a.data;
+  a.data = b.data;
+  b.data = temp;
+  }
 }
 
 public static int count(Node start) {
-	if(start == null) {
-		return 0;
-	}
-	return 1 + count(start.next);
+  if(start == null) {
+  return 0;
+  }
+  return 1 + count(start.next);
 }
 
 public static Node get(Node start, int idx) {
-	if(idx < 0 || idx >= count(start)) {
-		return null;
-	}
-	return get(start.next, idx-1);
+  if(idx < 0 || idx >= count(start)) {
+  return null;
+  }
+  if(idx == 0) {
+  return start;
+  }
+  return get(start.next, idx-1);
 }
 ```
 
-A completely *recursive in-place* version is:
+A completely *recursive in-place* version (High end of HD example) is:
 
 ```java
 public static void reverse(Node n) {
-    reverse(n, size(n));
+  reverse(n, size(n));
 }
-    
+  
 public static void reverse(Node n, int size) {
-    if(size <= 1) {
-        return;
-    }
-    swap(n, 0, size-1);
-    reverse(n.next, size-2);
+  if(size <= 1) {
+    return;
+  }
+  swap(n, 0, size-1);
+  reverse(n.next, size-2);
 }
 
 public static void swap(Node n, int idx1, int idx2) { //assuming idx1, idx2 are valid
-    Node a = get(n, idx1);
-    Node b = get(n, idx2);
-    int temp = a.data;
-    a.data = b.data;
-    b.data = temp;
+  Node a = get(n, idx1);
+  Node b = get(n, idx2);
+  int temp = a.data;
+  a.data = b.data;
+  b.data = temp;
 }
-    
+  
 public static int size(Node start) {
-    if(start == null) {
-        return 0;
-    }
-    return 1 + size(start.next);
+  if(start == null) {
+    return 0;
+  }
+  return 1 + size(start.next);
 }
-    
+  
 public static Node get(Node start, int idx) { //assuming idx is valid 
-    if(idx == 0) {
-        return start;
-    }
-    return get(start.next, idx-1);
+  if(idx == 0) {
+    return start;
+  }
+  return get(start.next, idx-1);
 }
 ```
 
@@ -469,23 +483,23 @@ A vastly different approach (*recursive in-place* as well) which requires you to
 
 ```java
 public static Node reverse(Node node) {
-    if (node == null) {
-    	return null;
-    }
-    if (node.next == null) {
-    	return node;
-    }
+  if (node == null) {
+    return null;
+  }
+  if (node.next == null) {
+    return node;
+  }
 
-    Node secondNode = node.next;
-    node.next = null; //it was an amicable break-up
-    
-    Node reverseRest = reverse(secondNode);
-    secondNode.next = node; //insert originally first node at the end of the reversed list
-    return reverseRest; //return the first node of the reversed list
+  Node secondNode = node.next;
+  node.next = null; //it was an amicable break-up
+  
+  Node reverseRest = reverse(secondNode);
+  secondNode.next = node; //insert originally first node at the end of the reversed list
+  return reverseRest; //return the first node of the reversed list
 }
 ```
 
-# Homework - 2
+# Activities
 
 ### Task 1
 
@@ -536,7 +550,7 @@ a.next = d.next.next;
 
 ### Task 5
 
-For the class [Node](./Node.java), the following code attempts to store the sum of all items in the chain of nodes into a varaible `total`. However, it has a a bug. Briefly explain what is the problem with the code, and correct it.
+For the class [Node](./Node.java), the following code attempts to store the sum of all items in the chain of nodes into a variable `total`. However, it has a bug. Briefly explain what is the problem with the code, and correct it.
 
 ```java
 Node a = new Node(20, null);
@@ -546,14 +560,14 @@ Node d = new Node(90, c);
 int total = 0;
 Node current = d;
 while(current != null) {
-	total = total + current;
-	current = current.next;
+  total = total + current;
+  current = current.next;
 }
 ```
 
 ### Task 6
 
-For the class [Node](./Node.java), the following code attempts to store the number of nodes in the chain into a variable `size`. However, it has a a bug. Briefly explain what is the problem with the code, and correct it.
+For the class [Node](./Node.java), the following code attempts to store the number of nodes in the chain into a variable `size`. However, it has a bug. Briefly explain what is the problem with the code, and correct it.
 
 ```java
 Node a = new Node(20, null);
@@ -563,7 +577,7 @@ Node d = new Node(90, c);
 int size = 0;
 Node current = d;
 while(current != null) {
-	size = size + 1;
+  size = size + 1;
 }
 ```
 
@@ -579,13 +593,13 @@ Node d = new Node(90, c);
 int result = 0;
 Node current = d;
 while(current != null) {
-	if(current.data >= 20) {
-		result = result * 10 + 1;
-	}
-	else {
-		result = result * 10;
-	}
-	current = current.next;
+  if(current.data >= 20) {
+  result = result * 10 + 1;
+  }
+  else {
+  result = result * 10;
+  }
+  current = current.next;
 }
 ```
 
@@ -599,10 +613,10 @@ Node b = new Node(2, a);
 Node c = new Node(7, b);
 Node d = new Node(1, c);
 a.next = d;
-a.data = 	1000*d.data +
-			100*d.next.data +
-			10*d.next.next.data +
-			1*d.next.next.next.data;
+a.data =   1000*d.data +
+    100*d.next.data +
+    10*d.next.next.data +
+    1*d.next.next.next.data;
 ```
 
 ### Task 9
@@ -611,13 +625,13 @@ Consider the following class definition for `TreeNode`:
 
 ```java
 public class TreeNode {
-	public int data;
-	public TreeNode left, right;
-	public TreeNode(int d, TreeNode l, TreeNode r) {
-		data = d;
-		left = l;
-		right = r;
-	}
+  public int data;
+  public TreeNode left, right;
+  public TreeNode(int d, TreeNode l, TreeNode r) {
+  data = d;
+  left = l;
+  right = r;
+  }
 }
 ```
 
@@ -628,3 +642,69 @@ TreeNode t1 = new TreeNode(20, null, null);
 TreeNode t2 = new TreeNode(-10, null, null);
 TreeNode t3 = new TreeNode(70, t1, t2);
 ```
+
+### Task 10
+
+Complete the following function that when passed the starting Node of a list of Node objects, returns `true` if all items in the list are in the range [0, 100].
+
+```java
+public static boolean allMarksValid(Node start) {
+	//to be completed
+}
+```
+
+### Task 11
+
+Complete the following function that when passed the starting Node of a list of Node objects, returns the number of items that are greater than the first item.
+
+```java
+public static int countGreaterThanFirst(Node start) {
+	//to be completed
+}
+```
+
+### Task 12
+
+Complete the following function that when passed the starting Nodes of two lists of Node objects, returns `true` if they are identical, and `false` otherwise.
+
+```java
+public static boolean identical(Node start1, Node start2) {
+	//to be completed
+}
+```
+
+### Task 13
+
+Complete the following function that when passed the starting Node of a list of Node objects, remove all negative nodes from the list.
+
+```java
+public static void removeNegatives(Node start) {
+	//to be completed
+}
+```
+
+### Task 14
+
+Complete the following function that when passed the starting Nodes of two lists of Node objects, returns the starting Node of the two merged together such that all items of the first list are in the resulting list before all the items of the second list (and in the original order). Neither of the original lists should be modified.
+
+```java
+public static Node merge(Node start1, Node start2) {
+	//to be completed
+}
+```
+
+### Task 15
+
+Complete the following function that when passed the starting Node of a list of Node objects, returns the reference of the Node that begins the longest ascending sequence within the original list. Return the Node that occurs first in case of a tie. The original list should not be modified.
+
+```java
+public static Node longestAscendingSequence(Node start) {
+	//to be completed
+}
+```
+
+### Task 16
+
+Define `Date`, `Time`, and `DateTime` classes (think about what they will contain), and create a class `NodeDateTime` that holds one `DateTime` object and one `NodeDateTime` object.
+
+Define a function that when passed the starting node of a list of `NodeDateTime` objects and an integer (say, n), returns `true` if the list contains at least `n` identical objects.
