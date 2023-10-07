@@ -152,7 +152,7 @@ Thankfully, that is exactly how objects are passed to functions - as reference c
 
 So, if I had a function:
 
-```
+```java
 public static int sum(Node start) {
 	int total = 0;
 	while(start != null) {
@@ -172,7 +172,7 @@ To calculate the sum of all nodes starting at a node `start`,
 - if `start` is `null`, you can return 0,
 - otherwise, you can add `start.data` to the sum of all nodes starting at `start.next`.
 
-```
+```java
 public static int sum(Node start) {
 	if(start == null) {
 		return 0;
@@ -189,7 +189,7 @@ YESSS!!!
 
 What is the bug in the following code?
 
-```
+```java
 public static int sumPositives(Node start) {
 	int total = 0;
 	while(start != null) {
@@ -207,7 +207,7 @@ The movement forward (`start = start.next`), just like the classic `i++`, is alm
 
 Correct code:
 
-```
+```java
 public static int sumPositives(Node start) {
 	int total = 0;
 	while(start != null) {
@@ -222,7 +222,7 @@ public static int sumPositives(Node start) {
 
 Some people prefer a `for-loop` for this very reason:
 
-```
+```java
 public static int sumPositives(Node start) {
 	int total = 0;
 	for(; start != null; start = start.next) {
@@ -234,11 +234,26 @@ public static int sumPositives(Node start) {
 }
 ```
 
+Recursive version:
+
+```java
+public static int sumPositives(Node start) {
+	if(start == null) {
+		return 0;
+	}
+	if(start.data > 0) {
+		return start.data + sumPositives(start.next);
+	}
+	else {
+		return sumPositives(start.next);
+	}
+}
+```
+
 If, for any reason, you need to hold on to the original reference of `start`, you can always copy into another variable as,
 
-```
+```java
 //this is the classic handshake algorithm
-
 public static boolean allUnique(Node start) {
 	for(Node nodeA = start; nodeA != null; nodeA = nodeA.next) { //for all nodes
 		//check against all other nodes AFTER it
@@ -250,6 +265,25 @@ public static boolean allUnique(Node start) {
 	return true;
 }
 ```
+
+Recursive version:
+
+```java
+public static boolean allUnique(Node start) {
+	if(start == null) {
+		return true; //vacuous truth
+	}
+	return !contains(start.next, start.data) && allUnique(start.next);
+}
+
+public static boolean contains(Node start, int target) {
+	if(start == null) {
+		return false;
+	}
+	return start.data == target || contains(start.next, target);
+}
+```	
+	
 
 ## Nodes can hold other objects too
 
@@ -284,7 +318,7 @@ RNode p = new RNode(new Rectangle(2.5, 1.5), q);
 
 Consider the following function that attempts to check if a specific rectangle exists in a list or not:
 
-```
+```java
 public static boolean contains(RNode start, Rectangle target) {
 	for(Node current = start; current != null; current = current.next) { 
 			if(current.data == target) {
@@ -299,8 +333,7 @@ Here, the `current.data == target` checks if the two are reference copies!
 
 The right version is:
 
-
-```
+```java
 public static boolean contains(RNode start, Rectangle target) {
 	for(Node current = start; current != null; current = current.next) { 
 			if(current.data.equals(target)) {
@@ -312,6 +345,145 @@ public static boolean contains(RNode start, Rectangle target) {
 ```
 
 Here, the `current.data.equals(target)` checks for equality based on the definition of what "equal" is (defined in class `Rectangle`).
+
+Recursive version:
+
+```java
+public static boolean contains(RNode start, Rectangle target) {
+	if(start == null) {
+		return false;
+	}
+	else {
+		return current.data.equals(target) || contains(start.next, target);
+	}
+}
+```
+
+## With a little help from my friends
+
+Anything you can do with loops, you can do recursively... sometimes, with the use of helper functions.
+
+For example, a function that reverses a list and returns the reference to the starting Node, such that if `n -> 10 -> 70 -> 20 -> 90 -> null`, it returns reference to a Node (say, k) such that `k -> 90 -> 20 -> 70 -> 10 -> null`.
+
+```java
+public static Node reversed(Node n) {
+	Node temp = null;
+	while(n != null) {
+		temp = new Node(n.data, temp);
+		n = n.next;
+	}
+	return temp;
+}
+```
+
+The above version is called *out-of-place* algorithm and will create a second list of the same size as the original list, which can be pretty costly. A recursive *out-of-place* version is provided below:
+
+```java
+public static Node reversed(Node n) {
+	if(n == null) {
+		return null;
+	}
+	else {
+		Node temp = reversed(n.next);
+		addToEnd(temp, n.data);
+		return temp;
+	}
+}
+
+public static void addToEnd(Node start, int data) {	if(start == null) {
+		return;
+	}
+	if(start.next == null) {
+		start.next = new Node(data, null);
+	}
+}	
+```
+
+Instead, an *in-place* algorithm modifies the existing list, so no new instances are created. Here's an in-place version (Note: `reverse` vs. `reversed`):
+
+```java
+public static void reverse(Node n) {
+	for(int i=0; i < count(n); i++) {
+		Node a = get(n, i);
+		Node b = get(n, count(n) - i - 1);
+		int temp = a.data;
+		a.data = b.data;
+		b.data = temp;
+	}
+}
+
+public static int count(Node start) {
+	if(start == null) {
+		return 0;
+	}
+	return 1 + count(start.next);
+}
+
+public static Node get(Node start, int idx) {
+	if(idx < 0 || idx >= count(start)) {
+		return null;
+	}
+	return get(start.next, idx-1);
+}
+```
+
+A completely *recursive in-place* version is:
+
+```java
+public static void reverse(Node n) {
+    reverse(n, size(n));
+}
+    
+public static void reverse(Node n, int size) {
+    if(size <= 1) {
+        return;
+    }
+    swap(n, 0, size-1);
+    reverse(n.next, size-2);
+}
+
+public static void swap(Node n, int idx1, int idx2) { //assuming idx1, idx2 are valid
+    Node a = get(n, idx1);
+    Node b = get(n, idx2);
+    int temp = a.data;
+    a.data = b.data;
+    b.data = temp;
+}
+    
+public static int size(Node start) {
+    if(start == null) {
+        return 0;
+    }
+    return 1 + size(start.next);
+}
+    
+public static Node get(Node start, int idx) { //assuming idx is valid 
+    if(idx == 0) {
+        return start;
+    }
+    return get(start.next, idx-1);
+}
+```
+
+A vastly different approach (*recursive in-place* as well) which requires you to copy the returned value back:
+
+```java
+public static Node reverse(Node node) {
+    if (node == null) {
+    	return null;
+    }
+    if (node.next == null) {
+    	return node;
+    }
+
+    Node secondNode = node.next;
+    node.next = null; //it was an amicable break-up
+    
+    Node reverseRest = reverse(secondNode);
+    secondNode.next = node; //insert originally first node at the end of the reversed list
+    return reverseRest; //return the first node of the reversed list
+}
+```
 
 # Homework - 2
 
