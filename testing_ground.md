@@ -12,10 +12,6 @@ within: programming
 
 ## Adding SVG files, cleanly
 
-```
-{ % include_relative assets/svgs/sampleSVG.md % }
-```
-
 {% include_relative assets/svgs/sampleSVG.md %}
 
 ## Using markdown_helper
